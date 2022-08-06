@@ -1,0 +1,41 @@
+spring:
+  profiles:
+    active: local
+  cloud:
+    stream:
+      bindings:
+        log-in-0:
+          group: log-group
+          destination: log
+        log-out-0:
+          destination: log
+        personConsumer-in-0:
+          group: person-group
+          destination: person
+        personSupplier-out-0:
+          destination: person
+        product-in-0:
+          group: product-group
+          destination: product
+        product-out-0:
+          destination: product
+      kafka:
+        binder:
+          brokers: localhost:9092
+          auto-create-topics: false
+        bindings:
+          log-in-0:
+            consumer:
+              resetOffsets: false
+        streams:
+          binder:
+            auto-create-topics: false
+    function:
+      definition: log;personConsumer;personSupplier;product
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
